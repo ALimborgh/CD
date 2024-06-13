@@ -5,15 +5,11 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     triforce = """
-       /\\
-      /  \\
-     /    \\
-    /______\\
-   /\\      /\\
-  /  \\    /  \\
- /    \\  /    \\
-/______\\/______\\
-"""
+    /\\
+    /__\\
+    /\\  /\\
+    /__\\/__\\
+    """
     return render_template_string('''
     <html>
         <head>
@@ -25,6 +21,8 @@ def home():
                 }
                 .triforce {
                     animation: pulse 2s infinite;
+                    font-size: 2em;
+                    line-height: 0.6;
                 }
             </style>
         </head>
