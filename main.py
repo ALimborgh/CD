@@ -5,10 +5,14 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     triforce = """
-   /\\
-  /__\\
- /\\  /\\
-/__\\/__\\
+       /\\
+      /  \\
+     /    \\
+    /______\\
+   /\\      /\\
+  /  \\    /  \\
+ /    \\  /    \\
+/______\\/______\\
 """
     return render_template_string('''
     <html>
