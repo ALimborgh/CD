@@ -17,15 +17,25 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    - name: Reinstall Jinja2
+      run: |
+        pip uninstall -y jinja2
+        pip install jinja2==2.11.3
+    - name: Reinstall MarkupSafe
+      run: |
+        pip uninstall -y markupsafe
+        pip install markupsafe==1.1.1
+    - name: Reinstall itsdangerous
+      run: |
+        pip uninstall -y itsdangerous
+        pip install itsdangerous==1.1.0
+    - name: Reinstall Werkzeug
+      run: |
+        pip uninstall -y werkzeug
+        pip install werkzeug==1.0.1
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip uninstall -y jinja2
-        pip install jinja2==2.11.3
-        pip uninstall -y markupsafe
-        pip install markupsafe==1.1.1
-        pip uninstall -y itsdangerous
-        pip install itsdangerous==1.1.0
         pip install -r requirements.txt
     - name: Run tests
       run: |
