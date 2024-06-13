@@ -30,7 +30,7 @@ jobs:
         with:
           host: 146.190.226.82
           username: root
-          key: ${{ secrets.DEPLOY_KEY }}
+          key: J!UwN&!T?D7@zrO
           script: |
             rsync -r --delete-after --quiet ${{ github.workspace }} /documents/CD_Assesment
             cd /documents/CD_Assesment
