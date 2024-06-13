@@ -24,6 +24,8 @@ jobs:
         pip install jinja2==2.11.3
         pip uninstall -y markupsafe
         pip install markupsafe==1.1.1
+        pip uninstall -y itsdangerous
+        pip install itsdangerous==1.1.0
         pip install -r requirements.txt
     - name: Run tests
       run: |
