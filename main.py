@@ -5,11 +5,14 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     triforce = """
-    /\\
-    /__\\
-    /\\  /\\
-    /__\\/__\\
-    """
+       /\\
+           
+       /__\\
+          
+       /\\  /\\
+           
+       /__\\/__\\
+        """
     return render_template_string('''
     <html>
         <head>
@@ -27,7 +30,7 @@ def home():
             </style>
         </head>
         <body style="background-color: black; font-family: monospace; text-align: center; padding-top: 50px;">
-            <h1 style="color: gold;">The Triforce</h1>
+            <h1 style="color: gold;">The Triforce: </h1>
             <pre class="triforce">{{ triforce }}</pre>
         </body>
     </html>
