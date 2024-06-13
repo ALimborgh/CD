@@ -15,7 +15,6 @@ def home():
         """
     return render_template_string('''
     <html>
-    
         <head>
             <style>
                 @keyframes pulse {
