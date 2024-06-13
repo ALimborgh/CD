@@ -14,11 +14,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-    
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.ROOT_SSH_KEY }}
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -31,6 +26,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Deploy to server
-        run: |
-          rsync -r --delete-after --quiet ${{ github.workspace }} root@146.190.226.82:/documents/CD_Assesment
-          ssh root@146.190.226.82 "cd /documents/CD_Assesment && pip install -r requirements.txt && sudo systemctl restart your-app"
+        uses: appleboy/ssh-action@master
+        with:
+          host: 146.190.226.82
+          username: root
+          key: ${{ secrets.ROOT_SSH_KEY }}
+          script: |
+            rsync -r --delete-after --quiet ${{ github.workspace }} /documents/CD_Assesment
+            cd /documents/CD_Assesment
+            pip install -r requirements.txt
+            sudo systemctl restart cd_assesment
