@@ -29,7 +29,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: 146.190.226.82
-          username: root
+          username: github
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             rsync -r --delete-after --quiet ${{ github.workspace }} /documents/CD_Assesment
