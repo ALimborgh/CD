@@ -25,14 +25,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Deploy to server
-        uses: appleboy/ssh-action@master
+      - name: Setup DigitalOcean CLI
+        uses: digitalocean/action-doctl@v2
         with:
-          host: 146.190.226.82
-          username: github
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            rsync -r --delete-after --quiet ${{ github.workspace }} /documents/CD_Assesment
-            cd /documents/CD_Assesment
-            pip install -r requirements.txt
-            sudo systemctl restart cd_assesment
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Deploy to server
+        run: |
+          # Use doctl to interact with your droplet here
+          # For example, to execute a command on your droplet:
+          doctl compute ssh ubuntu-s-1vcpu-512mb-10gb-ams3-01 --host 146.190.226.82 --command "rsync -r --delete-after --quiet ${{ github.workspace }} /documents/CD_Assesment && cd /documents/CD_Assesment && pip install -r requirements.txt && sudo systemctl restart cd_assesment"
