@@ -25,13 +25,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Setup DigitalOcean CLI
-        uses: digitalocean/action-doctl@v2
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: Deploy to server
         run: |
-          # Use doctl to interact with your droplet here
-          # For example, to execute a command on your droplet:
-          doctl compute ssh ubuntu-s-1vcpu-512mb-10gb-ams3-01 --ssh-command "rsync -r --delete-after --quiet ${{ github.workspace }} /documents/CD_Assesment && cd /documents/CD_Assesment && pip install -r requirements.txt && sudo systemctl restart cd_assesment" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+            # Use doctl to interact with your droplet here
+            # For example, to execute a command on your droplet:
+            doctl compute ssh ubuntu-s-1vcpu-512mb-10gb-ams3-01 --ssh-command "rsync -r --delete-after --quiet ${{ github.workspace }} /documents/CD_Assesment && cd /documents/CD_Assesment && pip install -r requirements.txt && sudo systemctl restart cd_assesment" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
