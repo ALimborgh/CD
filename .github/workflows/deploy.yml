@@ -12,26 +12,31 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+    - name: Install doctl
+      run: |
+        curl -L https://github.com/digitalocean/doctl/releases/download/v1.64.0/doctl-1.64.0-linux-amd64.tar.gz | tar xvz
+        sudo mv doctl /usr/local/bin
 
-      - name: Deploy to server
-        run: |
-            # Use doctl to interact with your droplet here
-            # For example, to execute a command on your droplet:
-            doctl compute ssh ubuntu-s-1vcpu-512mb-10gb-ams3-01 --ssh-command "rsync -r --delete-after --quiet ${{ github.workspace }} /documents/CD_Assesment && cd /documents/CD_Assesment && pip install -r requirements.txt && sudo systemctl restart cd_assesment" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+    - name: Install SSH key
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+    - name: Deploy to server
+      run: |
+          # Use doctl to interact with your droplet here
+          # For example, to execute a command on your droplet:
+          doctl compute ssh ubuntu-s-1vcpu-512mb-10gb-ams3-01 --ssh-command "rsync -r --delete-after --quiet ${{ github.workspace }} /documents/CD_Assesment && cd /documents/CD_Assesment && pip install -r requirements.txt && sudo systemctl restart cd_assesment" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
