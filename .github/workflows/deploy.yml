@@ -57,7 +57,7 @@ jobs:
       run: |
         echo "GitHub Workspace: CD/main.py"
         echo "rsync --quiet CD/main.py /documents/CD_Assesment/main.py"
-        doctl compute ssh ubuntu-s-1vcpu-512mb-10gb-ams3-01 --ssh-command "mkdir -p /documents/CD_Assesment && rsync --quiet CD/main.py /documents/CD_Assesment/main.py && cd /documents/CD_Assesment && pip install -r requirements.txt && sudo systemctl restart cd_assesment" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null  
+        doctl compute ssh ubuntu-s-1vcpu-512mb-10gb-ams3-01 --ssh-command "mkdir -p /documents/CD_Assesment && rsync --quiet CD/main.py /documents/CD_Assesment/main.py && cd /documents/CD_Assesment && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && sudo systemctl restart cd_assesment" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null    
     
     env:  
       DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
