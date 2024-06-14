@@ -45,6 +45,6 @@ jobs:
       run: |
           # Use doctl to interact with your droplet here
           # For example, to execute a command on your droplet:
-          doctl compute ssh ubuntu-s-1vcpu-512mb-10gb-ams3-01 --ssh-command "mkdir -p /documents && rsync -r --delete-after --quiet /home/runner/work/CD/CD /documents/CD_Assesment && cd /documents/CD_Assesment && pip install -r requirements.txt && sudo systemctl restart cd_assesment" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+          doctl compute ssh ubuntu-s-1vcpu-512mb-10gb-ams3-01 --ssh-command "mkdir -p /documents && rsync -r --delete-after --quiet /home/runner/work/CD/CD /documents/CD_Assesment && CD /documents/CD_Assesment && pip install -r requirements.txt && sudo systemctl restart CD_Assesment" -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
       env:
         DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
