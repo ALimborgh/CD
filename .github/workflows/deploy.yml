@@ -15,12 +15,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: List contents of /home/runner/work
-      run: ls -la /home/runner/work
-
-    - name: Print workspace directory
-      run: ls -R ${{ github.workspace }}
-
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
