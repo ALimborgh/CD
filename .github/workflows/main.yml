@@ -56,4 +56,4 @@ jobs:
         
     - name: Deploy to server
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@146.190.226.82 "mkdir -p /documents/CD_Assesment && rsync --quiet ./main.py ./requirements.txt /documents/CD_Assesment/ && cd /documents/CD_Assesment && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && sudo systemctl restart cd_assesment"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu-s-1vcpu-512mb-10gb-ams3-01@146.190.226.82 "mkdir -p /documents/CD_Assesment && rsync --quiet ./main.py ./requirements.txt /documents/CD_Assesment/ && cd /documents/CD_Assesment && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && sudo systemctl restart cd_assesment"
