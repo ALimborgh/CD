@@ -56,4 +56,4 @@ jobs:
         
     - name: Deploy to server
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "mkdir -p /documents/CD_Assesment && rsync --quiet ./main.py ./requirements.txt /documents/CD_Assesment/ && cd /documents/CD_Assesment && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && sudo systemctl restart cd_assesment"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "mkdir -p /documents/CD_Assesment && rsync --quiet $GITHUB_WORKSPACE/main.py $GITHUB_WORKSPACE/requirements.txt /documents/CD_Assesment/ && cd /documents/CD_Assesment && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && sudo systemctl restart cd_assesment"
