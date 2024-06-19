@@ -54,8 +54,10 @@ jobs:
         mkdir -p ~/.ssh
         ssh-keyscan -t rsa -H 146.190.226.82 >> ~/.ssh/known_hosts
         
-    - name: List workspace contents
-      run: ls -l $GITHUB_WORKSPACE  
+    - name: Check file permissions
+      run: |
+        ls -l $GITHUB_WORKSPACE/main.py
+        ls -l $GITHUB_WORKSPACE/requirements.txt 
 
     - name: Deploy to server
       run: |
