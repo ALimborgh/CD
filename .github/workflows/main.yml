@@ -53,12 +53,16 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         ssh-keyscan -t rsa -H 146.190.226.82 >> ~/.ssh/known_hosts
-        
-    - name: Check file permissions
-      run: |
-        ls -l $GITHUB_WORKSPACE/main.py
-        ls -l $GITHUB_WORKSPACE/requirements.txt 
 
     - name: Deploy to server
       run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "ls -l /documents/CD_Assesment/ && mkdir -p /documents/CD_Assesment && rsync -v /main.py /requirements.txt /documents/CD_Assesment/ && ls -l /documents/CD_Assesment/ && cd /documents/CD_Assesment && python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt && sudo systemctl restart cd_assesment"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "\
+        ls -l /documents/CD_Assesment/ && \
+        mkdir -p /documents/CD_Assesment && \
+        rsync -v $GITHUB_WORKSPACE/main.py $GITHUB_WORKSPACE/requirements.txt /documents/CD_Assesment/ && \
+        ls -l /documents/CD_Assesment/ && \
+        cd /documents/CD_Assesment && \
+        python3 -m venv venv && \
+        source venv/bin/activate && \
+        pip install -r requirements.txt && \
+        sudo systemctl restart cd_assesment"
