@@ -54,12 +54,13 @@ jobs:
         mkdir -p ~/.ssh
         ssh-keyscan -t rsa -H 146.190.226.82 >> ~/.ssh/known_hosts
 
+    - name: Copy files to server
+      run: |
+        rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./CD/ root@146.190.226.82:/documents/CD_Assesment/
+    
     - name: Deploy to server
       run: |
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "\
-        ls -l /documents/CD_Assesment/ && \
-        mkdir -p /documents/CD_Assesment && \
-        rsync -v CD/main.py CD/requirements.txt /documents/CD_Assesment/ && \
         ls -l /documents/CD_Assesment/ && \
         cd /documents/CD_Assesment && \
         python3 -m venv venv && \
