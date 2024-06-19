@@ -59,6 +59,7 @@ jobs:
         echo "GITHUB_WORKSPACE is set to $GITHUB_WORKSPACE"
         ls -l $GITHUB_WORKSPACE
         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "\
+        GITHUB_WORKSPACE=$GITHUB_WORKSPACE \
         ls -l /documents/CD_Assesment/ && \
         mkdir -p /documents/CD_Assesment && \
         rsync -v $GITHUB_WORKSPACE/main.py $GITHUB_WORKSPACE/requirements.txt /documents/CD_Assesment/ && \
