@@ -62,7 +62,7 @@ jobs:
         GITHUB_WORKSPACE=$GITHUB_WORKSPACE \
         ls -l /documents/CD_Assesment/ && \
         mkdir -p /documents/CD_Assesment && \
-        rsync -v $GITHUB_WORKSPACE/main.py $GITHUB_WORKSPACE/requirements.txt /documents/CD_Assesment/ && \
+        rsync -v $GITHUB_WORKSPACE/CD/main.py $GITHUB_WORKSPACE/CD/requirements.txt /documents/CD_Assesment/ && \
         ls -l /documents/CD_Assesment/ && \
         cd /documents/CD_Assesment && \
         python3 -m venv venv && \
