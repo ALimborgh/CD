@@ -10,13 +10,11 @@ def home():
        /__\\
           
        /\\  /\\
-           
-           
+              
        /__\\/__\\
         """
     return render_template_string('''
     <html>
-    
         <head>
             <style>
                 @keyframes pulse {
