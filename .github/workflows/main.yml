@@ -25,54 +25,54 @@ jobs:
         export FLASK_APP=main.py
         pytest
 
-  deploy:
+  setup:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-  
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-    
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r CD/requirements.txt
-    
-    - name: Install SSH key
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.DEPLOY_KEY }}
-          
-    - name: Add SSH key to known hosts
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -t rsa -H 146.190.226.82 >> ~/.ssh/known_hosts
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Copy files to server
-      run: |
-        rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./CD/ root@146.190.226.82:/documents/CD_Assesment/
-    
-    - name: Deploy to server
-      run: |
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "\
-        ls -l /documents/CD_Assesment/ && \
-        cd /documents/CD_Assesment && \
-        python3 -m venv venv && \
-        source venv/bin/activate && \
-        pip install -r requirements.txt && \
-        sudo systemctl restart CD_Assesment"
+      - name: Add SSH key to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -t rsa -H 146.190.226.82 >> ~/.ssh/known_hosts
 
-    - name: Status Report
-      run: |
-        echo "Deployment Status Report:"
-        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "\
-        echo 'Application Status:' && \
-        sudo systemctl status CD_Assesment && \
-        echo 'Recent Logs:' && \
-        sudo journalctl -u CD_Assesment --since '10 minutes ago'"
+  copy-files:
+    needs: setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Copy files to server
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" ./CD/ root@146.190.226.82:/documents/CD_Assesment/
+
+  deploy:
+    needs: copy-files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "\
+          ls -l /documents/CD_Assesment/ && \
+          cd /documents/CD_Assesment && \
+          python3 -m venv venv && \
+          source venv/bin/activate && \
+          pip install -r requirements.txt && \
+          sudo systemctl restart CD_Assesment"
+
+  status-report:
+    needs: deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Status Report
+        run: |
+          echo "Deployment Status Report:"
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "\
+          echo 'Application Status:' && \
+          sudo systemctl status CD_Assesment && \
+          echo 'Recent Logs:' && \
+          sudo journalctl -u CD_Assesment --since '10 minutes ago'"
