@@ -67,3 +67,12 @@ jobs:
         source venv/bin/activate && \
         pip install -r requirements.txt && \
         sudo systemctl restart cd_assesment"
+
+    - name: Status Report
+      run: |
+        echo "Deployment Status Report:"
+        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@146.190.226.82 "\
+        echo 'Application Status:' && \
+        sudo systemctl status cd_assesment && \
+        echo 'Recent Logs:' && \
+        sudo journalctl -u cd_assesment --since '10 minutes ago'"
